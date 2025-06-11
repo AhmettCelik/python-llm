@@ -8,6 +8,14 @@ def get_files_info(working_directory, directory=None):
     except Exception as e:
         return f'Error: os.path.abspath throwing error: {e}'
 
+    directory = os.path.join(working_directory, directory)
+    absolute_directory = os.path.abspath(directory)
+
+    print(absolute_path)
+    print(absolute_working_path)
+    print(directory)
+    print(absolute_directory)
+
     if not absolute_path.startswith(absolute_working_path):
         return f'Error: Cannot list "{directory}" as it is outside the permitted working directory'
 
