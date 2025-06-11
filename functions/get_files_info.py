@@ -3,18 +3,11 @@ import os
 
 def get_files_info(working_directory, directory=None):
     try:
+        directory = os.path.join(working_directory, directory)
         absolute_path = os.path.abspath(directory)
         absolute_working_path = os.path.abspath(working_directory)
     except Exception as e:
         return f'Error: os.path.abspath throwing error: {e}'
-
-    directory = os.path.join(working_directory, directory)
-    absolute_directory = os.path.abspath(directory)
-
-    print(absolute_path)
-    print(absolute_working_path)
-    print(directory)
-    print(absolute_directory)
 
     if not absolute_path.startswith(absolute_working_path):
         return f'Error: Cannot list "{directory}" as it is outside the permitted working directory'
