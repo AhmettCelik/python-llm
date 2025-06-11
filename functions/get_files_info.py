@@ -5,8 +5,8 @@ def get_files_info(working_directory, directory=None):
     try:
         absolute_path = os.path.abspath(directory)
         absolute_working_path = os.path.abspath(working_directory)
-    except Exception:
-        return f'Error: os.path.abspath throwing error: {Exception}'
+    except Exception as e:
+        return f'Error: os.path.abspath throwing error: {e}'
 
     if not absolute_path.startswith(absolute_working_path):
         return f'Error: Cannot list "{directory}" as it is outside the permitted working directory'
@@ -16,33 +16,24 @@ def get_files_info(working_directory, directory=None):
 
     try:
         contents = os.listdir(absolute_path)
-    except Exception:
-        return f"Error: os.listdir throwing error: {Exception}"
+    except Exception as e:
+        return f"Error: os.listdir throwing error: {e}"
 
     contents_data = {}
 
-    for content in contents:
-        try:
+    try:
+        for content in contents:
             content_path = os.path.join(absolute_path, content)
-        except Exception:
-            return f"Error: os.path.join throwing error: {Exception}"
-
-        contents_data[content] = {}
-
-        try:
+            contents_data[content] = {}
             content_size = os.path.getsize(content_path)
-        except Exception:
-            return f"Error: os.path.getsize throwing error: {Exception}"
+            contents_data[content]["file_size"] = content_size
 
-        contents_data[content]["file_size"] = content_size
-
-        try:
             if os.path.isdir(content_path):
                 contents_data[content]["is_dir"] = True
             else:
                 contents_data[content]["is_dir"] = False
-        except Exception:
-            return f"Error: os.path.isdir throwing error: {Exception}"
+    except Exception as e:
+        return f"Error: an error occured in contents list for loop {e}"
 
     result_lines = []
     for content, data in contents_data.items():
