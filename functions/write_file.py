@@ -1,9 +1,9 @@
 import os
-import functions
+from functions.get_file_content import get_file_content
 
 
 def write_file(working_directory, file_path, content):
-    file_content = functions.get_file_content(working_directory, file_path)
+    file_content = get_file_content(working_directory, file_path)
     if file_content.startswith("Error:"):
         return file_content
     os.makedirs(os.path.dirname(file_path), exist_ok=True)
